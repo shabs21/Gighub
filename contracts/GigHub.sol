@@ -55,12 +55,10 @@ contract JobFactory {
         _;
     }
 
-    function getApplicants(address _jobAddress, address _employer)
-        external
-        view
-        onlyJobOwner(_employer)
-        returns (address[] memory)
-    {
+    function getApplicants(
+        address _jobAddress,
+        address _employer
+    ) external view returns (address[] memory) {
         address[] memory _applicantAddresses = applicants[_jobAddress];
         return _applicantAddresses;
     }
@@ -68,7 +66,7 @@ contract JobFactory {
 
 contract GigHub {
     address admin;
-    address[] public jobAddresses;
+    address[] jobAddresses;
     uint256 jobId;
 
     constructor() {
@@ -122,10 +120,13 @@ contract GigHub {
         JobFactory(_jobAddress).jobApplication(_jobAddress, msg.sender);
     }
 
-    function fetchApplicants(address _jobAddress)
-        public
-        returns (address[] memory)
-    {
+    function fetchApplicants(
+        address _jobAddress
+    ) public returns (address[] memory) {
         return JobFactory(_jobAddress).getApplicants(_jobAddress, msg.sender);
+    }
+
+    function getJobAddresses() public returns (address[] memory) {
+        return jobAddresses;
     }
 }
